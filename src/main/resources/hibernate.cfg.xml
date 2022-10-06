@@ -29,8 +29,8 @@
 		<!-- Mostra as SQLs Geradas -->
 		<property name="show_sql">true</property>
 
-		<!-- Cria as tabelas do banco de dados -->
-		<property name="hbm2ddl.auto">create</property>
+		<!-- inserindo os dados nas tabelas -->
+		<property name="hbm2ddl.auto">validate</property>
 		
 		<!-- Mapeamento as tabelas -->
 		<mapping class="br.com.comercio.domain.Estado" />
@@ -38,11 +38,12 @@
 		<mapping class="br.com.comercio.domain.Fornecedor" />
 		<mapping class="br.com.comercio.domain.Produto" />
 		<mapping class="br.com.comercio.domain.Funcionario" />
-		<mapping class="br.com.comercio.domain.ItemVenda" />
-		<mapping class="br.com.comercio.domain.Pessoa" />
+		<mapping class="br.com.comercio.domain.ItemVenda" />	
 		<mapping class="br.com.comercio.domain.Usuario" />
 		<mapping class="br.com.comercio.domain.Venda" />
 		<mapping class="br.com.comercio.domain.Cliente" />
+		
+			<mapping class="br.com.comercio.domain.Pessoa" />
 		
 		
 	</session-factory>

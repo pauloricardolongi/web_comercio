@@ -1,7 +1,10 @@
 package br.com.comercio.domain;
 
 import javax.persistence.Column;
+
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 @SuppressWarnings("serial")
 @Entity
@@ -29,6 +32,10 @@ public class Pessoa extends GenericDomain {
 	
 	@Column(length = 10, nullable = false)
 	private String complemento;
+	
+	@ManyToOne
+	@JoinColumn(nullable = false)
+	private Cidade cidade;
 	
 	@Column(length = 13, nullable = false)
 	private String telefone;
@@ -101,6 +108,13 @@ public class Pessoa extends GenericDomain {
 
 	public void setComplemento(String complemento) {
 		this.complemento = complemento;
+	}
+	
+	public Cidade getCidade() {
+		return cidade;
+	}
+	public void setCidade(Cidade cidade) {
+		this.cidade = cidade;
 	}
 
 	public String getTelefone() {
