@@ -58,7 +58,7 @@ public class CidadeDAOTest {
 	@Test
 	@Ignore
 	public void excluir(){
-		Long codigo = 4L;
+		Long codigo = 7L;
 		
 		CidadeDAO cidadeDAO = new CidadeDAO();
 		Cidade cidade = cidadeDAO.buscar(codigo);
@@ -76,8 +76,8 @@ public class CidadeDAOTest {
 	@Test
 	@Ignore
 	public void editar(){
-		Long codigoCidade = 5L;
-		Long codigoEstado = 5L;
+		Long codigoCidade = 7L;
+		Long codigoEstado = 6L;
 		
 		EstadoDAO estadoDAO = new EstadoDAO();
 		Estado estado = estadoDAO.buscar(codigoEstado);

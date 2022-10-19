@@ -18,6 +18,21 @@ public class EstadoDAOTest {
 		EstadoDAO estadoDAO = new EstadoDAO();
 		estadoDAO.salvar(estado);
 	}
+	
+	@Test
+	@Ignore
+	public void merge() {
+		Estado estado = new Estado();
+		estado.setNome("Rio Grande do Sul");
+		estado.setSigla("RS");
+		
+		EstadoDAO estadoDAO = new EstadoDAO();
+		estadoDAO.merge(estado);
+	}
+	
+
+	
+	
 	@Test
 	@Ignore
 	
@@ -51,7 +66,7 @@ public class EstadoDAOTest {
 	@Test
 	@Ignore
 	public void excluir(){
-		Long codigo = 4L;
+		Long codigo = 19L;
 		EstadoDAO estadoDAO = new EstadoDAO();
 		Estado estado = estadoDAO.buscar(codigo);
 		
@@ -67,7 +82,7 @@ public class EstadoDAOTest {
 	@Test
 	@Ignore
 	public void editar(){
-		Long codigo = 4L;
+		Long codigo = 19L;
 		EstadoDAO estadoDAO = new EstadoDAO();
 		Estado estado = estadoDAO.buscar(codigo);
 		
@@ -77,8 +92,8 @@ public class EstadoDAOTest {
 			System.out.println("Registro editado - Antes:");
 			System.out.println(estado.getCodigo() + " - " + estado.getSigla() + " - " + estado.getNome());
 			
-			estado.setNome("Santa Catarina");
-			estado.setSigla("SC");
+			estado.setNome("Paraná");
+			estado.setSigla("pr");
 			estadoDAO.editar(estado);
 			
 			System.out.println("Registro editado - Depois:");

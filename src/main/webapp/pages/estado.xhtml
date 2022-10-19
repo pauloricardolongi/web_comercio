@@ -7,52 +7,98 @@ xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 
 >
+
+
 <h:head> 
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
 <title>Estados</title>
 <h:outputStylesheet library="css" name="estilo.css"/> 
  </h:head>
 
+
+
 <h:body>
-<p:growl id="mensagem" />  
-<h:form>
+
+<p:growl  id="mensagem" />  
+<h:form id="formListagem">
 
 		<p:panel header="Lista de Estados">
 			<p:dataTable emptyMessage="Nenhum registro encontra"
-				paginator="true">
+				paginator="true" value="#{estadoBean.estados}" var="estado"
+				rows="6"
+				id="tabela"
+				>
 				<f:facet name="header">
-					<p:commandButton value="Novo" oncomplete="PF('dialogo').show();" />
+					<p:commandButton value="Novo" oncomplete="PF('dialogo').show();"
+					actionListener="#{estadoBean.novo}"
+				 update=":formCadastro:pnCadastro" >
+				 <f:actionListener type="org.omnifaces.eventlistener.ResetInputAjaxActionListener" /> 
+						</p:commandButton>
 				</f:facet>
 
-				<p:column headerText="Nome">
+				<p:column headerText="Nome" sortBy="#{estado.nome}" filterBy="#{estado.nome}">
+				<h:outputText value="#{estado.nome}" />
 				</p:column>
 
-				<p:column headerText="Estado">
+				<p:column headerText="Sigla" filterBy="#{estado.sigla}">
+				<h:outputText value="#{estado.sigla}" />
 				</p:column>
 
-				<p:column headerText="Opções">
+				<p:column headerText="Opções">				
+				<p:commandButton icon="ui-icon-trash"
+actionListener="#{estadoBean.excluir}"
+update=":mensagem :formListagem:tabela">
+<p:confirm header="Confirmação" message="Deseja excluir o estado?"
+icon="ui-icon-alert" />
+<f:attribute name="estadoSelecionado" value="#{estado}" />
+</p:commandButton>
+
+<p:commandButton icon="ui-icon-pencil"
+						actionListener="#{estadoBean.editar}"
+						update=":formCadastro:pnCadastro"
+						oncomplete="PF('dialogo').show();">
+						<f:attribute name="estadoSelecionado" value="#{estado}" />
+						<f:actionListener type="org.omnifaces.eventlistener.ResetInputAjaxActionListener" /> 
+						
+					</p:commandButton>
+				
+				
 				</p:column>
+				
 			</p:dataTable>
+			<p:confirmDialog global="true">
+				<p:commandButton value="Sim" type="button"
+					styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+				<p:commandButton value="Não" type="button"
+					styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+			</p:confirmDialog>
 		</p:panel>
 	</h:form>
 
 
 <p:dialog header="Estados - Cadastro" widgetVar="dialogo"
-		draggable="false" resizable="false" modal="true" closable="false">
-		<h:form>
-			<h:panelGrid columns="2">
+		draggable="false" resizable="false" global="true" closable="false">
+		<h:form id="formCadastro">
+			<h:panelGrid columns="2" id="pnCadastro">
 			
 				<p:outputLabel value="Nome:" />
-				<p:inputText maxlength="50" size="30" />
+				<p:inputText maxlength="50" size="30" value="#{estadoBean.estado.nome}"
+				required="true"
+					requiredMessage="O campo 'Nome' é obrigatório" />
 				
 				<p:outputLabel value="Sigla:" />
-			     <p:inputText maxlength="2" size="10"/> 
+			     <p:inputText maxlength="2" size="10" value="#{estadoBean.estado.sigla}"
+			     required="true"
+					requiredMessage="O campo 'Sigla' é obrigatório" />
+				 
 			     
 				</h:panelGrid>				
 				
 
 			<h:panelGrid columns="2">
-				<p:commandButton value="Salvar" actionListener="#{estadoBean.salvar()}" update=":mensagem"/>
+				<p:commandButton value="Salvar" actionListener="#{estadoBean.salvar()}"
+				 update=":mensagem :formCadastro:pnCadastro: formListagem:tabela"
+				 />
 				<p:commandButton value="Fechar" oncomplete="PF('dialogo').hide();" />
 			</h:panelGrid>
 		</h:form>
@@ -61,6 +107,7 @@ xmlns:h="http://java.sun.com/jsf/html"
 	
 
 </h:body>
+
 
 
 </html>

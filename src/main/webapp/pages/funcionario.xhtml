@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>Funcionários</title>
+	
+	<h:outputStylesheet library="css" name="estilo.css" />
+	<h:outputScript library="js" name="scripts.js"/>
+</h:head>
+
+
+
+<h:body>
+	<p:growl id="mensagem" />
+
+	<h:form id="formListagem">
+		<p:panel header="Lista de Funcionários">
+
+<p:dataTable id="tabela" emptyMessage="Nenhum registro encontrado."
+				paginator="true" value="#{funcionarioBean.funcionarios}" var="funcionario"
+				rows="5">
+				<f:facet name="header">
+					<p:commandButton value="Novo" oncomplete="PF('dialogo').show();"
+						actionListener="#{fornecedorBean.novo}"
+						update=":mensagem :formCadastro:painel">
+						<f:actionListener
+							type="org.omnifaces.eventlistener.ResetInputAjaxActionListener" />
+					</p:commandButton>
+				</f:facet>
+
+				<p:column headerText="carteira de trabalho" sortBy="#{funcionario.pessoa.nome}"
+					filterBy="#{funcionario.pessoa.nome}">
+					<h:outputText value="#{funcionario.pessoa.nome}" />
+				</p:column>
+
+				<p:column headerText="CPF" sortBy="#{funcionario.pessoa.cpf}"
+					filterBy="#{funcionario.pessoa.cpf}">
+					<h:outputText value="#{funcionario.pessoa.cpf}" />
+				</p:column>
+				
+				<p:column headerText="data admissao" sortBy="#{funcionario.dataAdmissao}"
+					filterBy="#{funcionario.dataAdmissao}">
+					<h:outputText value="#{funcionario.dataAdmissao}" />
+				</p:column>
+				
+				<p:column headerText="carteira de trabalho" sortBy="#{funcionario.carteiraTrabalho}"
+					filterBy="#{funcionario.carteiraTrabalho}">
+					<h:outputText value="#{funcionario.carteiraTrabalho}" />
+				</p:column>
+
+				
+			</p:dataTable>
+		</p:panel>
+	</h:form>
+
+	<p:dialog header="Funcionário - Cadastro" widgetVar="dialogo"
+		draggable="false" resizable="false" modal="true" closable="false">
+		<h:form id="formCadastro">
+			<h:panelGrid id="painel" columns="2">
+				<p:outputLabel for="pessoa" value="Pessoa:" />
+				<p:selectOneMenu id="pessoa" filter="true"
+					value="#{funcionarioBean.funcionario.pessoa}" required="true"
+					requiredMessage="O campo 'Pessoa' é obrigatório"
+					converter="omnifaces.SelectItemsConverter">
+					<f:selectItem noSelectionOption="true"
+						itemLabel="Selecione uma pessoa" />
+					<f:selectItems value="#{funcionarioBean.pessoas}" var="pessoa"
+						itemValue="#{pessoa}" itemLabel="#{pessoa.nome} 
+						- #{pessoa.cpf} - #{pessoa.celular} " />
+				</p:selectOneMenu>
+
+				
+			</h:panelGrid>
+
+			<h:panelGrid columns="2">
+				<p:commandButton value="Salvar"
+					update=":mensagem :formCadastro:painel :formListagem:tabela"
+					actionListener="#{funcionarioBean.salvar}" />
+				<p:commandButton value="Fechar" oncomplete="PF('dialogo').hide();" />
+			</h:panelGrid>
+		</h:form>
+	</p:dialog>
+</h:body>
+</html>
