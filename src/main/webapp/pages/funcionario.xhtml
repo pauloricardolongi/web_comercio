@@ -1,21 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:h="http://xmlns.jcp.org/jsf/html"
-	xmlns:f="http://xmlns.jcp.org/jsf/core"
-	xmlns:p="http://primefaces.org/ui">
-<h:head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	<title>Funcionários</title>
-	
-	<h:outputStylesheet library="css" name="estilo.css" />
-	<h:outputScript library="js" name="scripts.js"/>
-</h:head>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+xmlns:ui="http://java.sun.com/jsf/facelets"
+xmlns:h="http://java.sun.com/jsf/html"
+xmlns:f="http://java.sun.com/jsf/core"
+xmlns:p="http://primefaces.org/ui"
+template="/templates/template.xhtml"
+>
 
 
+<ui:define name="conteudo">
 
-<h:body>
-	<p:growl id="mensagem" />
 
 	<h:form id="formListagem">
 		<p:panel header="Lista de Funcionários">
@@ -32,7 +27,7 @@
 					</p:commandButton>
 				</f:facet>
 
-				<p:column headerText="carteira de trabalho" sortBy="#{funcionario.pessoa.nome}"
+				<p:column headerText="Nome" sortBy="#{funcionario.pessoa.nome}"
 					filterBy="#{funcionario.pessoa.nome}">
 					<h:outputText value="#{funcionario.pessoa.nome}" />
 				</p:column>
@@ -58,7 +53,7 @@
 	</h:form>
 
 	<p:dialog header="Funcionário - Cadastro" widgetVar="dialogo"
-		draggable="false" resizable="false" modal="true" closable="false">
+		draggable="false" resizable="false" global="true" closable="false">
 		<h:form id="formCadastro">
 			<h:panelGrid id="painel" columns="2">
 				<p:outputLabel for="pessoa" value="Pessoa:" />
@@ -84,5 +79,5 @@
 			</h:panelGrid>
 		</h:form>
 	</p:dialog>
-</h:body>
-</html>
+</ui:define>
+</ui:composition>

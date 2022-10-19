@@ -1,21 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:h="http://xmlns.jcp.org/jsf/html"
-	xmlns:f="http://xmlns.jcp.org/jsf/core"
-	xmlns:p="http://primefaces.org/ui">
-<h:head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	<title>Clientes</title>
-	
-	<h:outputStylesheet library="css" name="estilo.css" />
-	<h:outputScript library="js" name="scripts.js"/> 
-</h:head>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+xmlns:ui="http://java.sun.com/jsf/facelets"
+xmlns:h="http://java.sun.com/jsf/html"
+xmlns:f="http://java.sun.com/jsf/core"
+xmlns:p="http://primefaces.org/ui"
+template="/templates/template.xhtml"
+>
 
 
-
-<h:body>
-	<p:growl id="mensagem" />
+<ui:define name="conteudo">
 
 	<h:form id="formListagem">
 		<p:panel header="Lista de Clientes">
@@ -32,7 +26,7 @@
 					</p:commandButton>
 
 				</f:facet>
-				
+
 				<p:column headerText="Nome" filterBy="#{cliente.pessoa.nome}"
 					sortBy="#{cliente.pessoa.nome}">
 					<h:outputText value="#{cliente.pessoa.nome}" />
@@ -54,18 +48,17 @@
 					<p:selectBooleanCheckbox value="#{cliente.liberado}"
 						disabled="true" />
 				</p:column>
-				
-				
 
-				
+				<p:column headerText="Opções">
+				</p:column>
 			</p:dataTable>
 		</p:panel>
 	</h:form>
 
 	<p:dialog header="Clientes - Cadastro" widgetVar="dialogo"
-		draggable="false" resizable="false" modal="true" closable="false">
+		draggable="false" resizable="false" global="true" closable="false">
 		<h:form id="formCadastro">
-			<h:panelGrid id="painel" columns="3">
+			<h:panelGrid id="painel" columns="2">
 				<p:outputLabel for="pessoa" value="Pessoa:" />
 				<p:selectOneMenu id="pessoa" filter="true"
 					value="#{clienteBean.cliente.pessoa}" required="true"
@@ -74,15 +67,14 @@
 					<f:selectItem noSelectionOption="true"
 						itemLabel="Selecione uma pessoa" />
 					<f:selectItems value="#{clienteBean.pessoas}" var="pessoa"
-						itemValue="#{pessoa}" itemLabel="#{pessoa.nome} - #{pessoa.cpf}	" 
-						/>
+						itemValue="#{pessoa}" itemLabel="#{pessoa.nome} - #{pessoa.cpf}" />
 				</p:selectOneMenu>
 
 				<p:outputLabel for="dataCadastro" value="Data de Cadastro:" />
 				<p:calendar id="dataCadastro"
 					value="#{clienteBean.cliente.dataCadastro}" required="true"
 					requiredMessage="O campo 'Data de Cadastro' é obrigatório"
-					size="10" locale="pt_BR"/>
+					size="10" />
 
 				<p:outputLabel for="liberado" value="Liberado:" />
 				<p:selectBooleanCheckbox id="liberado"
@@ -98,8 +90,14 @@
 			</h:panelGrid>
 		</h:form>
 	</p:dialog>
-</h:body>
-</html>
+</ui:define>
+</ui:composition>
+
+
+
+
+
+
 
 
 
