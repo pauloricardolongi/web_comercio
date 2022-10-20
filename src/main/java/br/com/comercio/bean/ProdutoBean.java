@@ -10,6 +10,7 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.event.ActionEvent;
 
 import org.omnifaces.util.Messages;
+import org.primefaces.event.FileUploadEvent;
 
 import br.com.comercio.dao.FornecedorDAO;
 import br.com.comercio.dao.ProdutoDAO;
@@ -116,5 +117,9 @@ public class ProdutoBean implements Serializable {
 			Messages.addFlashGlobalError("Ocorreu um erro ao tentar remover o produto");
 			erro.printStackTrace();
 		}
+	}
+	
+	public void upload(FileUploadEvent evento) {
+		System.out.println("Paulo Ricardo Longi");
 	}
 }
