@@ -1,7 +1,11 @@
 package br.com.comercio.bean;
 
 
+import java.io.IOException;
 import java.io.Serializable;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -11,6 +15,7 @@ import javax.faces.event.ActionEvent;
 
 import org.omnifaces.util.Messages;
 import org.primefaces.event.FileUploadEvent;
+import org.primefaces.model.UploadedFile;
 
 import br.com.comercio.dao.FornecedorDAO;
 import br.com.comercio.dao.ProdutoDAO;
@@ -120,6 +125,19 @@ public class ProdutoBean implements Serializable {
 	}
 	
 	public void upload(FileUploadEvent evento) {
-		System.out.println("Paulo Ricardo Longi");
+		
+		try {
+			UploadedFile arquivoUload = evento.getFile();
+		    Path arquivoTemp = Files.createTempFile(null, null);
+		    Files.copy(arquivoUload.getInputstream(), arquivoTemp, 
+		    		StandardCopyOption.REPLACE_EXISTING);
+		    produto.setCaminho(arquivoTemp.toString());
+		    System.out.println(produto.getCaminho());
+		
+		} catch (IOException erro) {
+			Messages.addFlashGlobalError("Ocorreu um erro ao tentar carregar a imagem");
+			erro.printStackTrace();
+		}
+		
 	}
 }
