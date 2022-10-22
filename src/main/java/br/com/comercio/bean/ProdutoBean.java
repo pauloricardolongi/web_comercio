@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.List;
 
@@ -79,7 +80,9 @@ public class ProdutoBean implements Serializable {
 	
 	public void editar(ActionEvent evento){
 		try {
-			produto = (Produto) evento.getComponent().getAttributes().get("produtoSelecionado");
+			produto = (Produto) evento.getComponent().getAttributes().get("produtoSelecionado");			
+			produto.setCaminho("C:/Sistema Comercio/uploads/"
+			+ produto.getCodigo() + ".jpg");
 
 			FornecedorDAO fornecedorDAO = new FornecedorDAO();
 			fornecedor = fornecedorDAO.listar();
@@ -89,10 +92,22 @@ public class ProdutoBean implements Serializable {
 		}	
 	}
 	
-	public void salvar() {
-		try {
+	public void salvar() {		
+		try {				
+				if(produto.getCaminho() == null) {
+					Messages.addGlobalInfo("O campo imagem é obrigatório!");
+					return;
+				}
+			
 			ProdutoDAO produtoDAO = new ProdutoDAO();
-			produtoDAO.merge(produto);
+			Produto produtoRetorno = produtoDAO.merge(produto);
+			
+			Path origem = Paths.get(produto.getCaminho());
+			Path destino = Paths.get("C:/Sistema Comercio/uploads/" 
+			+ produtoRetorno.getCodigo() + ".jpg");
+			
+			Files.copy(origem, destino, StandardCopyOption.REPLACE_EXISTING);
+			
 
 			produto = new Produto();
 
@@ -102,11 +117,12 @@ public class ProdutoBean implements Serializable {
 			produtos = produtoDAO.listar();
 
 			Messages.addGlobalInfo("Produto salvo com sucesso");
-		} catch (RuntimeException erro) {
+		} catch (RuntimeException | IOException  erro) {
 			Messages.addFlashGlobalError("Ocorreu um erro ao tentar salvar o produto");
 			erro.printStackTrace();
 		}
-	}
+		}
+	
 
 	public void excluir(ActionEvent evento) {
 		try {
@@ -114,11 +130,16 @@ public class ProdutoBean implements Serializable {
 
 			ProdutoDAO produtoDAO = new ProdutoDAO();
 			produtoDAO.excluir(produto);
+			
+			Path arquivo = Paths.get("C:/Sistema Comercio/uploads/"
+			+ produto.getCodigo() + ".jpg");
+			
+			Files.deleteIfExists(arquivo);
 
 			produtos = produtoDAO.listar();
 
 			Messages.addGlobalInfo("Produto removido com sucesso");
-		} catch (RuntimeException erro) {
+		} catch (RuntimeException | IOException erro) {
 			Messages.addFlashGlobalError("Ocorreu um erro ao tentar remover o produto");
 			erro.printStackTrace();
 		}
@@ -132,7 +153,8 @@ public class ProdutoBean implements Serializable {
 		    Files.copy(arquivoUload.getInputstream(), arquivoTemp, 
 		    		StandardCopyOption.REPLACE_EXISTING);
 		    produto.setCaminho(arquivoTemp.toString());
-		    System.out.println(produto.getCaminho());
+		    Messages.addGlobalInfo("Imagem salva com sucesso");
+		   
 		
 		} catch (IOException erro) {
 			Messages.addFlashGlobalError("Ocorreu um erro ao tentar carregar a imagem");
